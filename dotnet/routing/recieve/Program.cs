@@ -25,7 +25,7 @@ class Program
         var q1 = chnl.QueueDeclare();
 
         chnl.QueueBind(q1.QueueName, exchange: exchange_name, routingKey: "Info");
-        //chnl.QueueBind(q1.QueueName, exchange: exchange_name, routingKey: "Info");
+        chnl.QueueBind(q1.QueueName, exchange: exchange_name, routingKey: "Warning");
 
         var consumer = new EventingBasicConsumer(chnl);
 
