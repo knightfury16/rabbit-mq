@@ -8,12 +8,11 @@ class Program
 {
     static void Main(string[] args)
     {
-        var factory = new ConnectionFactory();
-        factory.HostName = "localhost";
-        factory.UserName = "admin";
-        factory.Password = "admin";
 
-        IConnection connection = factory.CreateConnection();
+        var rabbitConnection = RabbitConnection.Instance;
+
+        var connection = rabbitConnection.GetConnection();
+
         IModel chnl = connection.CreateModel();
 
         string exchange_name = "direct_logs";
