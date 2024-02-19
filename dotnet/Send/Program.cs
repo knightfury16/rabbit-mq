@@ -1,39 +1,25 @@
-﻿using RabbitMQ.Client;
-using System.Text;
-
-namespace Send;
+﻿namespace Send;
 
 class Program
 {
-    static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
+        Console.WriteLine("RPC client");
 
-        var factory = new ConnectionFactory
-        {
-            HostName = "localhost",
-            UserName = "admin",
-            Password = "admin"
-        };
+        string n = args.Length > 0 ? args[0] : "30";
 
-        var connection = factory.CreateConnection();
+        await InvokeAsync(n);
 
-        var channel = connection.CreateModel();
+    }
 
-        channel.QueueDeclare(queue: "hello",
-                     durable: false,
-                     exclusive: false,
-                     autoDelete: false,
-                     arguments: null);
+    private static async Task InvokeAsync(string n)
+    {
+        RpcClient rpcClient = new RpcClient();
 
-        const string message = "fuck u";
+        Console.WriteLine("Requesting fib {0}", n);
 
-        var body = Encoding.UTF8.GetBytes(message);
+        var response = await rpcClient.CallAsync(n);
 
-        channel.BasicPublish(exchange: string.Empty, routingKey: "hello", basicProperties: null, body:body);
-
-        Console.WriteLine($" [x] Sent {message}");
-
-        Console.WriteLine(" Press [enter] to exit.");
-        Console.ReadLine();
+        Console.WriteLine(" [.] Got '{0}'", response);
     }
 }
