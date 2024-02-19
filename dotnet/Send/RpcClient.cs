@@ -11,7 +11,7 @@ namespace Send;
 
 public class RpcClient : IDisposable
 {
-    private const string RPC_SERVER = "rpc_server";
+    private const string RPC_SERVER = "rpc_queue";
 
     private readonly IConnection connection;
     private readonly IModel channel;

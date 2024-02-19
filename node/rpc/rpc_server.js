@@ -7,7 +7,7 @@ async function GetFib(number){
 
     await new Promise(resolve => setInterval(resolve, 5000));
     
-    return fib(n);
+    return fib(number);
 }
 
 function fib(n){
@@ -33,7 +33,7 @@ function fib(n){
 
             var result = await GetFib(n);
 
-            channel.sendToQueue(rpl_queue, Buffer.from(result),{correlationId})
+            channel.sendToQueue(rpl_queue, Buffer.from(result.toString()),{correlationId})
 
             //acknowledge the message
             channel.ack(msg);
