@@ -39,7 +39,7 @@ function fib(n){
             channel.ack(msg);
         }
         else{
-            console.log("message is empty.");
+            console.log("Message is empty.");
         }
     });
 
