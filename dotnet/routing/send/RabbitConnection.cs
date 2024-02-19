@@ -2,7 +2,7 @@
 
 namespace send
 {
-    internal class RabbitConnection
+    public class RabbitConnection
     {
         private static RabbitConnection _instance;
         private readonly IConnection connection; 
