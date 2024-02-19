@@ -1,6 +1,7 @@
 ﻿using RabbitMQ.Client.Events;
 using RabbitMQ.Client;
 using System.Text;
+using send;
 
 namespace recieve;
 
@@ -8,13 +9,9 @@ class Program
 {
     static void Main(string[] args)
     {
-        var factory = new ConnectionFactory();
+        var rabbitConnection = RabbitConnection.Instance;
 
-        factory.HostName = "localhost";
-        factory.UserName = "admin";
-        factory.Password = "admin";
-
-        var cnn = factory.CreateConnection();
+        var cnn = rabbitConnection.GetConnection();
 
         var chnl = cnn.CreateModel();
 
