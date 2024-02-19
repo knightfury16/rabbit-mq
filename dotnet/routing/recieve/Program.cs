@@ -24,12 +24,13 @@ class Program
 
         var q1 = chnl.QueueDeclare();
 
-        chnl.QueueBind(q1.QueueName, exchange: exchange_name, routingKey: "Info");
-        chnl.QueueBind(q1.QueueName, exchange: exchange_name, routingKey: "Warning");
+        string routing_key = GetRotutingKey(args) ?? "Info";
+
+        chnl.QueueBind(q1.QueueName, exchange: exchange_name, routingKey: routing_key);
 
         var consumer = new EventingBasicConsumer(chnl);
 
-        consumer.Received += msgConsumer;
+        consumer.Received += MsgConsumer;
 
         chnl.BasicConsume(q1.QueueName, true, consumer);
 
@@ -38,7 +39,17 @@ class Program
 
     }
 
-    static void msgConsumer(object model, BasicDeliverEventArgs ea)
+    private static string? GetRotutingKey(string[] args)
+    {
+        if (args.Length > 0)
+        {
+            string key = args[0].Trim();
+            return key;
+        }
+        else return null;
+    }
+
+    static void MsgConsumer(object model, BasicDeliverEventArgs ea)
     {
         byte[] body = ea.Body.ToArray();
         string msg = Encoding.UTF8.GetString(body);
