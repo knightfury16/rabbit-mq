@@ -2,22 +2,22 @@
 
 namespace send
 {
-    internal class GetRabbitConnection
+    internal class RabbitConnection
     {
-        private static GetRabbitConnection _instance;
+        private static RabbitConnection _instance;
         private readonly IConnection connection; 
 
-        private GetRabbitConnection()
+        private RabbitConnection()
         {
             var factory = new ConnectionFactory{ HostName = "localhost", UserName = "admin", Password = "admin" };
             connection = factory.CreateConnection();
         }
 
-        public static GetRabbitConnection Instance
+        public static RabbitConnection Instance
         {
             get
             {
-                _instance ??= new GetRabbitConnection();
+                _instance ??= new RabbitConnection();
                 return _instance;
             }
         }
