@@ -9,7 +9,7 @@ namespace Send;
 
 
 
-public class RpcCient
+public class RpcClient : IDisposable
 {
     private const string RPC_SERVER = "rpc_server";
 
@@ -18,7 +18,7 @@ public class RpcCient
     private readonly QueueDeclareOk rpl_queue;
 
     private readonly ConcurrentDictionary<string, TaskCompletionSource<string>> callbackMapper = new();
-    public RpcCient()
+    public RpcClient()
     {
         var factory = new ConnectionFactory {HostName= "localhost", UserName = "admin", Password = "admin" };
         connection = factory.CreateConnection();
@@ -62,5 +62,10 @@ public class RpcCient
 
         cancellationToken.Register(() => callbackMapper.TryRemove(correlationId, out _));
         return tcs.Task;
+    }
+
+    public void Dispose()
+    {
+        connection.Close();
     }
 }
